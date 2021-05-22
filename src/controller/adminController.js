@@ -1,7 +1,18 @@
 import Author from "../models/Author";
+import Book from "../models/Book";
 
 ////////// Author //////////
-export const authorViewController = (req, res) => {
+export const authorViewController = async (req, res) => {
+  try {
+    const result = await Author.find().populate({
+      path: `books`,
+      model: Book,
+    });
+
+    res.render("screens/authorView", { authorList: result });
+  } catch (e) {
+    console.log(e);
+  }
   res.render("screens/authorView");
 };
 export const authorDetailController = (req, res) => {
